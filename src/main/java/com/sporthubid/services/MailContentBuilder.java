@@ -15,8 +15,10 @@ public class MailContentBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public String build(String message) {
+    public String build(String message, Long id_ver, String nama) {
         Context context = new Context();
+        context.setVariable("id_ver", id_ver);
+        context.setVariable("nama", nama);
         context.setVariable("message", message);
         final String htmlContent = templateEngine.process("mailTemplate", context);
         return htmlContent;

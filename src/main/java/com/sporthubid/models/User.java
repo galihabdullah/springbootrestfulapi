@@ -22,7 +22,7 @@ public class User implements Serializable {
     @Column
     private Long id_level;
 
-    @NotBlank
+    @Column
     private String f_nama;
 
     @Column

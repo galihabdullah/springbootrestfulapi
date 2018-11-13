@@ -2,7 +2,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head></head>
 <body>
-<h1>Verifikasi Akun Anda</h1>
-<a th:href="@{http://localhost:8080/verify}"><span th:text="${message}"></span></a>
+
+<div id="content" align="center">
+    <h1>Hai <span th:text="${nama}"></span></h1>
+    <h3>Terimakasih telah bergabung dengan Sporthub</h3>
+    <br>
+    <a th:href="@{http://localhost:8080/verify(ver=${id_ver})}"><span th:text="${message}"></span></a>
+</div>
+
 </body>
 </html>

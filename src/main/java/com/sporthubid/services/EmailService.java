@@ -1,6 +1,5 @@
 package com.sporthubid.services;
 
-import com.sporthubid.controllers.auth.Register;
 import com.sporthubid.models.Email;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
 
 import javax.mail.internet.MimeMessage;
 
@@ -88,13 +86,13 @@ public class EmailService {
     @Autowired
     private MailContentBuilder mailContentBuilder;
 
-    public void prepareAndSend(String mailto, String message) {
+    public void prepareAndSend(String mailto, String message, Long id_ver, String nama) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("ikhsan15fauji@gmail.com");
             messageHelper.setTo(mailto);
             messageHelper.setSubject("Sample mail subject");
-            String content = mailContentBuilder.build(message);
+            String content = mailContentBuilder.build(message, id_ver, nama);
             messageHelper.setText(content, true);
         };
 

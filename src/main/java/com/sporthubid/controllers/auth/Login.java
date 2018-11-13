@@ -1,8 +1,6 @@
 package com.sporthubid.controllers.auth;
 
-import com.sporthubid.models.User;
 import com.sporthubid.models.V_User;
-import com.sporthubid.repository.UserRepository;
 import com.sporthubid.repository.VUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+@CrossOrigin // for suport multi platform access
 public class Login {
 
     @Autowired
@@ -28,18 +26,19 @@ public class Login {
 
         if ( user_v.isEmpty() ) {
 
-            usermap.put("message", "Username or Passrord not match.");
-            usermap.put("status", "gagal");
+            usermap.put("error", true);
+            usermap.put("message", "Username or Password does not match.");
+            usermap.put("result", user_v);
+            usermap.put("status", "FAIL");
 
         } else {
-            usermap.put("data", user_v);
-            usermap.put("status", "suksess");
+            usermap.put("error", null);
+            usermap.put("message", "Login berhasil");
+            usermap.put("result", user_v);
+            usermap.put("status", "OK");
         }
+
         return usermap;
     }
 
-    @GetMapping("/users")
-    public List<V_User> getAll(){ // membuat list seluruh data member dari model Members
-        return vuser.findAll(); // mengoper list seluruh data member dari model Members ke end point
-    }
 }

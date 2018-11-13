@@ -1,15 +1,16 @@
 package com.sporthubid.controllers.auth;
 
-import com.sporthubid.models.Email;
 import com.sporthubid.models.User;
 import com.sporthubid.repository.UserRepository;
 import com.sporthubid.services.EmailService;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+//import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,22 +19,52 @@ import java.util.Map;
 @CrossOrigin
 public class Register {
 
-    @Autowired
+    @Autowired // inject dependency and function from user repository
     UserRepository userRepository;
 
+    @Autowired // inject dependency and function from EmailService
+    private EmailService notificationService;
+
+    /*
+    * Mapping end point to localhost:8080/register
+    * Request method POST
+    * @param user
+    * */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Map<String, Object> register(@Valid @RequestBody User user){
 
+        // cek username and email
         List<User> l_username = userRepository.findByUsername(user.getUsername());
         List<User> l_usermail = userRepository.findByEmail(user.getEmail());
 
-        Map<String, Object> usermap = new HashMap<>();
+        Map<String, Object> usermap = new HashMap<>(); // create new map for json
 
         if ( l_username.isEmpty() && l_usermail.isEmpty() ) {
+            // save new user
             userRepository.save(user);
+            // get id new user
+            List<User> users = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+            List<User> user_id = new ArrayList<>();
+            user_id.addAll(users);
 
-            usermap.put("message", "Berhasil");
-            usermap.put("status", "200");
+            // get id user from array list
+            Long id_ver = user_id.get(0).getId_user();
+            // get first name
+            String nama = user.getF_nama();
+            // message
+            String message = "Klik disini untuk verifikasi.";
+            //when
+            try {
+                notificationService.prepareAndSend(user.getEmail(), message, id_ver, nama);
+            } catch (MailException mailException) {
+                usermap.put("error", true);
+                usermap.put("message", "Send confirmation message failed");
+                usermap.put("status", "FAIL");
+            }
+
+            usermap.put("error", null);
+            usermap.put("message", "Registrasi berhasil");
+            usermap.put("status", "OK");
 
             /*if (result == true){
                  response success
@@ -42,85 +73,31 @@ public class Register {
              }*/
 
         } else {
-            usermap.put("message", "Username or Email has already taken!");
-            usermap.put("status", "gagal");
+            usermap.put("error", true);
+            usermap.put("message", "Register gagal");
+            usermap.put("status", "FAIL");
         }
         return usermap;
     }
 
-
-    @Autowired
-    private EmailService notificationService;
-
-    @Autowired
-    private Email user;
-
-
-    @RequestMapping(value = "/sendemail")
-    public String send() {
-
-        /*
-         * Creating a User with the help of User class that we have declared and setting
-         * Email address of the sender.
-         */
-        user.setEmailAddress("ikhsan3f@gmail.com");
-        /*
-         * Here we will call sendEmail() for Sending mail to the sender.
-         */
-        try {
-            notificationService.sendEmail(user);
-        } catch (MailException mailException) {
-            System.out.println(mailException);
-        }
-        return "Congratulations! Your mail has been send to the user.";
-    }
-
-    /**
-     *
-     * @return
-     * @throws MessagingException
-     */
-    @RequestMapping("/send-mail-attachment")
-    public String sendWithAttachment() throws MessagingException {
-
-        /*
-         * Creating a User with the help of User class that we have declared and setting
-         * Email address of the sender.
-         */
-        user.setEmailAddress("ikhsan3f@gmail.com");
-
-        /*
-         * Here we will call sendEmailWithAttachment() for Sending mail to the sender
-         * that contains a attachment.
-         */
-        try {
-            notificationService.sendEmailWithAttachment(user);
-        } catch (MailException mailException) {
-            System.out.println(mailException);
-        } catch (javax.mail.MessagingException e) {
-            e.printStackTrace();
-        }
-        return "Congratulations! Your mail has been send to the user.";
-    }
-
-    @RequestMapping("/send-mail-html")
-    public String shouldSendMail() throws Exception {
-        //given
-        String recipient = "ikhsan3f@gmail.com";
-        String message = "Verifikai";
-        //when
-        try {
-            notificationService.prepareAndSend(recipient, message);
-        } catch (MailException mailException) {
-            System.out.println(mailException);
-        }
-        return "Congratulations! Your mail has been send to the user.";
-    }
-
-
+    /*
+    * Request mapping for end point localhost:8080/verify
+    * This method is used for verification new user
+    * @param verify (id_user)
+    * */
     @RequestMapping("/verify")
-    public String verify(){
-        return "Verify Page";
+    public Map<String, Object> verifyUser(@RequestParam(value = "ver") Long verify){
+        User idUpdate = userRepository.getOne(verify); // get data by id
+
+        idUpdate.setId_user(verify); // set id data
+        idUpdate.setStatus("1"); // set status
+        userRepository.save(idUpdate);
+
+        Map<String, Object> updatemap = new HashMap<>();
+        updatemap.put("status", "OK");
+        updatemap.put("message", "Verifikasi berhasil");
+        updatemap.put("error", null);
+        return updatemap;
     }
 
 }
