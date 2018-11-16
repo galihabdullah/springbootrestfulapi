@@ -33,9 +33,9 @@ public class EmailService {
     public void prepareAndSend(String mailto, String message, Long id_ver, String nama) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("ikhsan15fauji@gmail.com");
+            messageHelper.setFrom("binarian.teamb@gmail.com");
             messageHelper.setTo(mailto);
-            messageHelper.setSubject("Sample mail subject");
+            messageHelper.setSubject("Konfirmasi akun sporthub");
             String content = mailContentBuilder.build(message, id_ver, nama);
             messageHelper.setText(content, true);
         };
