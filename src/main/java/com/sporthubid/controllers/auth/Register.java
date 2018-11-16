@@ -42,6 +42,7 @@ public class Register {
         if ( l_username.isEmpty() && l_usermail.isEmpty() ) {
             // save new user
             userRepository.save(user);
+
             // get id new user
             List<User> users = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
             List<User> user_id = new ArrayList<>();
