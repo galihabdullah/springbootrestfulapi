@@ -1,4 +1,4 @@
-package com.sportshubid.sportshubid.models;
+package com.sporthubid.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

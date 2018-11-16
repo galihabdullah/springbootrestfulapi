@@ -1,6 +1,6 @@
-package com.sportshubid.sportshubid.repository;
+package com.sporthubid.repository;
 
-import com.sportshubid.sportshubid.models.SortAndFilterTempatModel;
+import com.sporthubid.models.SortAndFilterTempatModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

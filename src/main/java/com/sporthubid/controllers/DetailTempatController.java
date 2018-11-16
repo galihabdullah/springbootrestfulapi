@@ -1,7 +1,7 @@
-package com.sportshubid.sportshubid.controllers;
+package com.sporthubid.controllers;
 
-import com.sportshubid.sportshubid.models.DetailTempatModel;
-import com.sportshubid.sportshubid.repository.DetailTempatRepository;
+import com.sporthubid.models.DetailTempatModel;
+import com.sporthubid.repository.DetailTempatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

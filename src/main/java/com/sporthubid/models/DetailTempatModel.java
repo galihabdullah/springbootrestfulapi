@@ -1,4 +1,4 @@
-package com.sportshubid.sportshubid.models;
+package com.sporthubid.models;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

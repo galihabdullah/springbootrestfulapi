@@ -1,8 +1,8 @@
-package com.sportshubid.sportshubid.controllers;
+package com.sporthubid.controllers;
 
 
-import com.sportshubid.sportshubid.models.SortAndFilterTempatModel;
-import com.sportshubid.sportshubid.repository.SortAndFilterTempatRepository;
+import com.sporthubid.models.SortAndFilterTempatModel;
+import com.sporthubid.repository.SortAndFilterTempatRepository;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
