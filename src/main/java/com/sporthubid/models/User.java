@@ -1,8 +1,5 @@
 package com.sporthubid.models;
 
-
-
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
