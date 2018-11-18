@@ -31,7 +31,7 @@ public class SortAndFilterTempatController {
 
     @GetMapping("/search")
     public Iterable<SortAndFilterTempatModel> searchQuery(@RequestParam("query") String query, Pageable pageable){
-        return repository.findByLokasiContainingOrJenisOlahragaContainingOrKelurahanContaining(query, query, query, pageable);
+        return repository.findByNamaTempatContainingOrLokasiContainingOrKelurahanContaining(query, query, query, pageable);
     }
 
     @GetMapping("/lokasi={lokasi}")
