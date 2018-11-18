@@ -11,7 +11,7 @@ public interface SortAndFilterTempatRepository extends JpaRepository<SortAndFilt
     Page<SortAndFilterTempatModel> findByLokasiContaining(String lokasi, Pageable pageable);
     Page<SortAndFilterTempatModel> findByJenisOlahragaContaining(String jenisolahraga, Pageable pageable);
     Page<SortAndFilterTempatModel> findByLokasiContainingAndJenisOlahragaContaining(String lokasi, String jenisOlahraga, Pageable pageable);
-    Page<SortAndFilterTempatModel> findByLokasiContainingOrJenisOlahragaContaining(String lokasi, String jenisOlahraa, Pageable pageable);
+    Page<SortAndFilterTempatModel> findByLokasiContainingOrJenisOlahragaContainingOrKelurahanContaining(String lokasi, String jenisOlahraa, String kelurahan, Pageable pageable);
     Page<SortAndFilterTempatModel> findByLokasiContainingAndJenisOlahragaContainingAndKelurahanContaining(String lokasi, String jenirOlahraga, String kelurahan, Pageable pageable);
 
 }

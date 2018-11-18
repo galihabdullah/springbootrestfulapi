@@ -29,9 +29,9 @@ public class SortAndFilterTempatController {
         return repository.findByLokasiContainingAndJenisOlahragaContainingAndKelurahanContaining(lokasi, jenisOlahraga, kelurahan, pageable);
     }
 
-    @GetMapping("/search={query}")
-    public Page<SortAndFilterTempatModel> searchQuery(@PathVariable(value = "query") String query, Pageable pageable){
-        return repository.findByLokasiContainingOrJenisOlahragaContaining(query, query, pageable);
+    @GetMapping("/search")
+    public Iterable<SortAndFilterTempatModel> searchQuery(@RequestParam("query") String query, Pageable pageable){
+        return repository.findByLokasiContainingOrJenisOlahragaContainingOrKelurahanContaining(query, query, query, pageable);
     }
 
     @GetMapping("/lokasi={lokasi}")
