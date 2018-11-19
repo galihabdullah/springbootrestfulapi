@@ -25,6 +25,9 @@ public class SortAndFilterTempatModel implements Serializable {
     @NotBlank
     private String lokasi;
 
+    @NotBlank
+    private String kelurahan;
+
     private Long idTempat;
 
     @NotBlank
@@ -37,7 +40,7 @@ public class SortAndFilterTempatModel implements Serializable {
 
     }
 
-    public SortAndFilterTempatModel(Long id, String cabangOlahraga, String jenisOlahraga, String namaTempat, String lokasi, Long idTempat, String url, String pictUrl){
+    public SortAndFilterTempatModel(Long id, String cabangOlahraga, String jenisOlahraga, String namaTempat, String lokasi, Long idTempat, String url, String pictUrl, String kelurahan){
         this.id = id;
         this.cabangOlahraga = cabangOlahraga;
         this.jenisOlahraga = jenisOlahraga;
@@ -46,7 +49,16 @@ public class SortAndFilterTempatModel implements Serializable {
         this.idTempat = idTempat;
         this.url = url;
         this.pictUrl = pictUrl;
+        this.kelurahan = kelurahan;
 
+    }
+
+    public String getKelurahan() {
+        return kelurahan;
+    }
+
+    public void setKelurahan(String kelurahan) {
+        this.kelurahan = kelurahan;
     }
 
     public String getPictUrl() {

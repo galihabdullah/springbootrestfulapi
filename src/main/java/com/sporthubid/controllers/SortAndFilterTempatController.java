@@ -3,17 +3,14 @@ package com.sporthubid.controllers;
 
 import com.sporthubid.models.SortAndFilterTempatModel;
 import com.sporthubid.repository.SortAndFilterTempatRepository;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+//import net.kaczmarzyk.spring.data.jpa.domain.Like;
+//import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+//import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tempat")
@@ -27,14 +24,14 @@ public class SortAndFilterTempatController {
         return repository.findAll();
     }
 
-    @GetMapping("/lokasi={lokasi}&jenisolahraga={jenisOlahraga}")
-    public Iterable<SortAndFilterTempatModel> findByJenisAndLokasi(@PathVariable(value = "lokasi") String lokasi, @PathVariable(value = "jenisOlahraga") String jenisOlahraga,Pageable pageable){
-        return repository.findByLokasiContainingAndJenisOlahragaContaining(lokasi, jenisOlahraga, pageable);
+    @GetMapping("/sort")
+    public Iterable<SortAndFilterTempatModel> findByJenisAndLokasi(@RequestParam("lokasi") String lokasi, @RequestParam("jenisolahraga") String jenisOlahraga, @RequestParam(name = "kelurahan", required = false) String kelurahan, Pageable pageable){
+        return repository.findByLokasiContainingAndJenisOlahragaContainingAndKelurahanContaining(lokasi, jenisOlahraga, kelurahan, pageable);
     }
 
-    @GetMapping("/search={query}")
-    public Page<SortAndFilterTempatModel> searchQuery(@PathVariable(value = "query") String query, Pageable pageable){
-        return repository.findByLokasiContainingOrJenisOlahragaContaining(query, query, pageable);
+    @GetMapping("/search")
+    public Iterable<SortAndFilterTempatModel> searchQuery(@RequestParam("query") String query, Pageable pageable){
+        return repository.findByNamaTempatContainingOrLokasiContainingOrKelurahanContaining(query, query, query, pageable);
     }
 
     @GetMapping("/lokasi={lokasi}")
