@@ -28,7 +28,31 @@ public class Login {
 
             usermap.put("error", true);
             usermap.put("message", "Username or Password does not match.");
+            usermap.put("result", null);
+            usermap.put("status", "FAIL");
+
+        } else {
+            usermap.put("error", null);
+            usermap.put("message", "Login berhasil");
             usermap.put("result", user_v);
+            usermap.put("status", "OK");
+        }
+
+        return usermap;
+    }
+
+    @PostMapping(value = "/signin")
+    public Map<String, Object> signin(@Valid @RequestParam(value = "username") String username, @RequestParam(value = "password") String password) {
+
+        List<V_User> user_v = vuser.findByUsernameAndPassword(username, password);
+
+        Map<String, Object> usermap = new HashMap<>();
+
+        if ( user_v.isEmpty() ) {
+
+            usermap.put("error", true);
+            usermap.put("message", "Username or Password does not match.");
+            usermap.put("result", null);
             usermap.put("status", "FAIL");
 
         } else {
