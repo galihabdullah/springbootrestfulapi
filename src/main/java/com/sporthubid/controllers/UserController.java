@@ -1,13 +1,15 @@
 package com.sporthubid.controllers;
 
+import com.sporthubid.models.UserEdit;
+import com.sporthubid.repository.UserEditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.sporthubid.models.User;
 import com.sporthubid.repository.UserRepository;
 
-import javassist.tools.web.BadHttpRequest;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -18,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private UserEditRepository editRepository;
 
     @GetMapping
     public Iterable<User> findAll() {
@@ -44,12 +49,20 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id_user}")
-    public User update(@PathVariable("id_user") long id_user, @RequestBody User user) throws BadHttpRequest {
-        if (repository.existsById(id_user)) {
+    public Map<String, Object> update(@PathVariable("id_user") long id_user, @RequestBody UserEdit user) {
+        Map<String, Object> respon = new HashMap<>();
+
+        if (editRepository.existsById(id_user)) {
             user.setId_user(id_user);
-            return repository.save(user);
+            editRepository.save(user);
+
+            respon.put("status","Ok");
+            respon.put("error",false);
+            return respon;
         } else {
-            throw new BadHttpRequest();
+            respon.put("status","Fail");
+            respon.put("error",true);
+            return respon;
         }
     }
 
