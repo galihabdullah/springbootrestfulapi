@@ -38,14 +38,21 @@ public class UserController {
         }
     }
 
-    @PostMapping(consumes = "application/json")
-    public User create(@RequestBody User user) {
-        return repository.save(user);
-    }
-
     @DeleteMapping(path = "/{id_user}")
-    public void delete(@PathVariable("id_user") long id_user) {
-        repository.deleteById(id_user);
+    public Map<String, Object> delete(@PathVariable("id_user") long id_user) {
+        Map<String, Object> respon = new HashMap<>();
+
+        if (repository.existsById(id_user)) {
+            repository.deleteById(id_user);
+
+            respon.put("status","Ok");
+            respon.put("error",false);
+            return respon;
+        } else {
+            respon.put("status","Fail");
+            respon.put("error",true);
+            return respon;
+        }
     }
 
     @PutMapping(path = "/{id_user}")
