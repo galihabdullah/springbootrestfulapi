@@ -1,8 +1,8 @@
-package com.sporthubid.controllers;
+package com.sporthubid.controllers.sort;
 
 
-import com.sporthubid.models.FasilitasModel;
-import com.sporthubid.repository.FasilitasRepository;
+import com.sporthubid.models.sort.FasilitasModel;
+import com.sporthubid.repository.sort.FasilitasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

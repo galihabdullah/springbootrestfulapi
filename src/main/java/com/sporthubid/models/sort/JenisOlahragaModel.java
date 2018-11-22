@@ -1,16 +1,7 @@
 package com.sporthubid.models.sort;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sporthubid.models.FasilitasModel;
-import org.hibernate.annotations.Any;
-import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.Where;
-import org.hibernate.annotations.WhereJoinTable;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "mt_jenisolahraga")

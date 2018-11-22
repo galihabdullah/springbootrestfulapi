@@ -1,9 +1,6 @@
 package com.sporthubid.models.sort;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "v_komunitas")
@@ -30,6 +27,11 @@ public class KomunitasModel {
 
     @Column(name = "gambar_komunitas")
     private String photo;
+
+    @Transient
+    private String url;
+
+
 
     public Long getIdkomunitas() {
         return idkomunitas;
@@ -85,5 +87,13 @@ public class KomunitasModel {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getUrl() {
+        return "localhost:8080/detailkomunitas/id/" + this.getIdkomunitas();
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

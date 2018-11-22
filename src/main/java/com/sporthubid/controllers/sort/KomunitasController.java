@@ -1,16 +1,11 @@
-package com.sporthubid.controllers;
+package com.sporthubid.controllers.sort;
 
-import com.sporthubid.models.FasilitasModel;
-import com.sporthubid.models.sort.KelurahanModel;
 import com.sporthubid.models.sort.KomunitasModel;
-import com.sporthubid.repository.KomunitasRepository;
+import com.sporthubid.repository.sort.KomunitasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin

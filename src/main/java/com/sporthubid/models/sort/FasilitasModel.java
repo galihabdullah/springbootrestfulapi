@@ -1,4 +1,4 @@
-package com.sporthubid.models;
+package com.sporthubid.models.sort;
 
 import com.fasterxml.jackson.core.SerializableString;
 

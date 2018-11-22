@@ -1,4 +1,4 @@
-package com.sporthubid.repository;
+package com.sporthubid.repository.sort;
 
 import com.sporthubid.models.sort.KomunitasModel;
 import org.springframework.data.domain.Page;
