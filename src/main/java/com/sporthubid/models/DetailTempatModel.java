@@ -1,17 +1,16 @@
 package com.sporthubid.models;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "tempat")
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "tb_tempat")
 public class DetailTempatModel implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_tempat")
@@ -47,27 +46,11 @@ public class DetailTempatModel implements Serializable {
 
     @NotBlank
     @Column(name = "tempat_kapasitas")
-    private Long kapasitas;
+    private String kapasitas;
 
     @NotBlank
     @Column(name = "tempat_gambar")
     private String gambar;
-
-    public DetailTempatModel(){
-
-    }
-
-    public DetailTempatModel(Long id, String namatempat, Date tanggalberdiri, String alamat, String kelurahan, String kecamatan, String wilayah, String deksripsi, Long kapasitas, String gambar){
-        this.id = id;
-        this.namatempat = namatempat;
-        this.tanggalberdiri = tanggalberdiri;
-        this.alamat = alamat;
-        this.kelurahan = kelurahan;
-        this.kecamatan = kecamatan;
-        this.wilayah = wilayah;
-        this.kapasitas = kapasitas;
-        this.gambar = gambar;
-    }
 
     public Long getId() {
         return id;
@@ -84,6 +67,7 @@ public class DetailTempatModel implements Serializable {
     public void setNamatempat(String namatempat) {
         this.namatempat = namatempat;
     }
+
 
     public Date getTanggalberdiri() {
         return tanggalberdiri;
@@ -133,11 +117,11 @@ public class DetailTempatModel implements Serializable {
         this.deksripsi = deksripsi;
     }
 
-    public Long getKapasitas() {
+    public String getKapasitas() {
         return kapasitas;
     }
 
-    public void setKapasitas(Long kapasitas) {
+    public void setKapasitas(String kapasitas) {
         this.kapasitas = kapasitas;
     }
 
