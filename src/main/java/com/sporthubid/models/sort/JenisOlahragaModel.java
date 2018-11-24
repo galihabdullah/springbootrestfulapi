@@ -14,6 +14,7 @@ public class JenisOlahragaModel implements Serializable {
     @Column(name = "jenis_nama")
     private String jenisolahrga;
 
+
     public Long getId() {
         return id;
     }
