@@ -5,6 +5,8 @@ import com.sporthubid.repository.FollowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -30,8 +32,15 @@ public class FollowController {
     }
 
     @PostMapping(consumes = "application/json")
-    public FollowKomunitas create(@RequestBody FollowKomunitas follow) {
-        return repository.save(follow);
+    public Map<String, Object> create(@RequestBody FollowKomunitas follow) {
+        Map<String,Object> respon = new HashMap<>();
+
+        repository.save(follow);
+
+        respon.put("status","Ok");
+        respon.put("messages","Following succeed");
+        respon.put("error",false);
+        return respon;
     }
 
     @DeleteMapping(path = "/{id_follow}")

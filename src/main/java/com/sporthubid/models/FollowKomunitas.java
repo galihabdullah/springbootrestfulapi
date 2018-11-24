@@ -1,12 +1,16 @@
 package com.sporthubid.models;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_follow")
+@EntityListeners(AuditingEntityListener.class)
 public class FollowKomunitas implements Serializable {
 
     @Id
