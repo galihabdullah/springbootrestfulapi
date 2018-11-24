@@ -10,8 +10,6 @@ import com.sporthubid.repository.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-
 
 @RestController
 @CrossOrigin
@@ -25,27 +23,46 @@ public class UserController {
     private UserEditRepository editRepository;
 
     @GetMapping
-    public Iterable<User> findAll() {
-        return repository.findAll();
+    public Iterable<User> findAll() { return repository.findAll();
     }
 
     @GetMapping(path = "/{id_user}")
-    public Optional<User> find(@PathVariable("id_user")long id_user) {
+    public Map<String, Object> find(@PathVariable("id_user") long id_user) {
+        Map<String,Object> respon = new HashMap<>();
+
         if (repository.existsById(id_user)) {
-            return repository.findById(id_user);
+            repository.findById(id_user);
+
+            respon.put("status","Ok");
+            respon.put("error",false);
+            respon.put("messages", "Edit succeed");
+            return respon;
+
         } else {
-            return null;
+            respon.put("status","Fail");
+            respon.put("messages","Id is not available. Searching failed.");
+            respon.put("error",true);
+            return respon;
         }
     }
 
-    @PostMapping(consumes = "application/json")
-    public User create(@RequestBody User user) {
-        return repository.save(user);
-    }
-
     @DeleteMapping(path = "/{id_user}")
-    public void delete(@PathVariable("id_user") long id_user) {
-        repository.deleteById(id_user);
+    public Map<String, Object> delete(@PathVariable("id_user") long id_user) {
+        Map<String, Object> respon = new HashMap<>();
+
+        if (repository.existsById(id_user)) {
+            repository.deleteById(id_user);
+
+            respon.put("status","Ok");
+            respon.put("error",false);
+            respon.put("messages", "Deletion succeed");
+            return respon;
+        } else {
+            respon.put("status","Fail");
+            respon.put("error",true);
+            respon.put("messages", "Id is not available. Deletion failed.");
+            return respon;
+        }
     }
 
     @PutMapping(path = "/{id_user}")
@@ -55,16 +72,16 @@ public class UserController {
         if (editRepository.existsById(id_user)) {
             user.setId_user(id_user);
             editRepository.save(user);
-
-            respon.put("status","Ok");
+            respon.put("status","Update Suceed.");
             respon.put("error",false);
             return respon;
         } else {
-            respon.put("status","Fail");
+            respon.put("status","Id is not available. Update failed.");
             respon.put("error",true);
             return respon;
         }
     }
 
 }
+
 
