@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface DetailKomunitasRepository extends JpaRepository<DetailKomunitasModel, Long> {
     Optional<DetailKomunitasModel> findById(Long id);
+    Optional<DetailKomunitasModel> countBy
 }
