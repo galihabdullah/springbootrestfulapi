@@ -17,7 +17,6 @@ import java.util.*;
 @Entity
 @Table(name = "tb_tempat")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class DetailTempatModel implements Serializable {
 
     @Id
