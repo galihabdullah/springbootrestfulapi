@@ -1,6 +1,7 @@
 package com.sporthubid.models.sort;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
+import com.sporthubid.models.DetailTempatModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,12 +20,7 @@ public class LokasiModel implements Serializable {
     @Column(name = "nama_lokasi")
     private String namakota;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "sort",
-            joinColumns = {@JoinColumn(name = "id_lokasi")},
-            inverseJoinColumns = {@JoinColumn(name = "id_kelurahan")}
-    )
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kota")
     private Set<KelurahanModel> kelurahanModels = new HashSet<>();
 
     public Set<KelurahanModel> getKelurahanModels() {

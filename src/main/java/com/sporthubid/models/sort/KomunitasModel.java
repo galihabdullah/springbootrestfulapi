@@ -90,7 +90,7 @@ public class KomunitasModel {
     }
 
     public String getUrl() {
-        return "localhost:8080/detailkomunitas/id/" + this.getIdkomunitas();
+        return "https://api-sporthub.herokuapp.com/detailkomunitas/id/" + this.getIdkomunitas();
     }
 
     public void setUrl(String url) {
