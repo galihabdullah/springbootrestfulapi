@@ -9,7 +9,9 @@ import com.sporthubid.models.User;
 import com.sporthubid.repository.UserRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -31,11 +33,11 @@ public class UserController {
         Map<String,Object> respon = new HashMap<>();
 
         if (repository.existsById(id_user)) {
-            repository.findById(id_user);
+            Optional<User> user_detail = repository.findById(id_user);
 
             respon.put("status","Ok");
             respon.put("error",false);
-            respon.put("messages", "Edit succeed");
+            respon.put("result", user_detail);
             return respon;
 
         } else {
