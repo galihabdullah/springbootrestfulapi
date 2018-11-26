@@ -34,13 +34,31 @@ public class EmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("binarian.teamb@gmail.com");
             messageHelper.setTo(mailto);
-            messageHelper.setSubject("Konfirmasi akun sporthub");
+            messageHelper.setSubject("Konfirmasi akun YoAyo.com");
             String content = mailContentBuilder.build(message, id_ver, nama);
             messageHelper.setText(content, true);
         };
 
         try {
             javaMailSender.send(messagePreparator);
+        } catch (MailException e) {
+            // runtime exception; compiler will not force you to handle it
+            e.printStackTrace();
+        }
+    }
+
+    public void prepareResetMail(String mailto, String message, String token, String nama) {
+        MimeMessagePreparator messageResetor = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom("binarian.teamb@gmail.com");
+            messageHelper.setTo(mailto);
+            messageHelper.setSubject("Reset Password YoAyo.com");
+            String content = mailContentBuilder.reset(message, nama, mailto, token);
+            messageHelper.setText(content, true);
+        };
+
+        try {
+            javaMailSender.send(messageResetor);
         } catch (MailException e) {
             // runtime exception; compiler will not force you to handle it
             e.printStackTrace();

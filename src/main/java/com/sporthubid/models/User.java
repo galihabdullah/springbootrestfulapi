@@ -68,6 +68,9 @@ public class User implements Serializable {
     private String flag_hapus;
 
     @Column
+    private String resettoken;
+
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date created_at;
@@ -211,6 +214,14 @@ public class User implements Serializable {
 
     public void setFlag_hapus(String flag_hapus) {
         this.flag_hapus = flag_hapus;
+    }
+
+    public String getResettoken() {
+        return resettoken;
+    }
+
+    public void setResettoken(String resettoken) {
+        this.resettoken = resettoken;
     }
 
     public Date getCreated_at() {

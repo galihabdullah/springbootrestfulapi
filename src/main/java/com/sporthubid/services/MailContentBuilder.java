@@ -24,4 +24,14 @@ public class MailContentBuilder {
         return htmlContent;
     }
 
+    public String reset(String message, String nama, String email, String token) {
+        Context context = new Context();
+        context.setVariable("nama", nama);
+        context.setVariable("email", email);
+        context.setVariable("token", token);
+        context.setVariable("message", message);
+        final String htmlContent = templateEngine.process("mailResetTemplate", context);
+        return htmlContent;
+    }
+
 }

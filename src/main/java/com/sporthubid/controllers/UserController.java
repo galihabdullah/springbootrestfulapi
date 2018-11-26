@@ -1,13 +1,20 @@
 package com.sporthubid.controllers;
 
+import com.sporthubid.models.DetailKomunitasModel;
 import com.sporthubid.models.UserEdit;
+import com.sporthubid.models.sort.KomunitasModel;
+import com.sporthubid.repository.DetailKomunitasRepository;
 import com.sporthubid.repository.UserEditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.sporthubid.models.User;
 import com.sporthubid.repository.UserRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +25,18 @@ import java.util.Optional;
 @RequestMapping(path = "/users")
 public class UserController {
 
+
+    @Autowired
+    EntityManager em;
+
     @Autowired
     private UserRepository repository;
 
     @Autowired
     private UserEditRepository editRepository;
+
+    @Autowired
+    private DetailKomunitasRepository detailKomunitasRepository;
 
     @GetMapping
     public Iterable<User> findAll() { return repository.findAll();
@@ -82,6 +96,21 @@ public class UserController {
             respon.put("error",true);
             return respon;
         }
+    }
+
+    @GetMapping(path = "/komunitas/{id_user}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DetailKomunitasModel> getPengumuman(@Valid @PathVariable(name = "id_user") Integer id_user){
+
+        Query sql = em.createNativeQuery("SELECT id_komunitas FROM tb_follow WHERE id_user="+id_user+"");
+        List<Integer> id_kom = sql.getResultList();
+
+        if (!id_kom.isEmpty()){
+            List<DetailKomunitasModel> komunitas = detailKomunitasRepository.getById_komunitas(id_kom);
+            return komunitas;
+        } else {
+            return null;
+        }
+
     }
 
 }
