@@ -75,8 +75,10 @@ public class ResetPassword {
 
             User user = opUser.get();
             if (user != null || !user.getEmail().isEmpty()){
+                UUID rand = UUID.randomUUID();
+                String token = Long.toString(rand.getMostSignificantBits(), 36).replaceAll("-","");
                 user.setPassword(userEdit.getPassword());
-                user.setResettoken("expired");
+                user.setResettoken(token);
                 userRepository.save(user);
 
                 updatemap.put("status", "Ok");
