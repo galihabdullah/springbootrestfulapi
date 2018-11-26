@@ -1,10 +1,20 @@
 package com.sporthubid.repository;
 
+import com.sporthubid.controllers.FollowController;
 import com.sporthubid.models.FollowKomunitas;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
+
 
 @RestResource (exported = false)
 public interface FollowRepository extends JpaRepository<FollowKomunitas, Integer> {
+    List<FollowKomunitas> findByIdkomunitas(Integer idkomunitas);
+    Integer countByIdkomunitas(Integer idkomunitas);
+    List<FollowKomunitas> findByIduser(Integer iduser);
+    @Transactional
+    Integer deleteByIduserAndIdkomunitas(Integer iduser, Integer idkomunitas);
 }

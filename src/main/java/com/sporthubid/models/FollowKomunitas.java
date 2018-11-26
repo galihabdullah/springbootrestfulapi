@@ -1,11 +1,11 @@
 package com.sporthubid.models;
 
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -14,31 +14,80 @@ import java.io.Serializable;
 public class FollowKomunitas implements Serializable {
 
     @Id
-    private int id_follow;
-    private int id_komunitas;
-    private int id_user;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_follow")
+    private int idfollow;
 
-    public int getId_follow() {
-        return id_follow;
+    @Column(name = "id_komunitas")
+    private int idkomunitas;
+
+    @Column(name = "id_user")
+    private int iduser;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_komunitas", insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private DetailKomunitasModel komunitasModel;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_user", insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setId_follow(int id_follow) {
-        this.id_follow = id_follow;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getId_komunitas() {
-        return id_komunitas;
+    public DetailKomunitasModel getKomunitasModel() {
+        return komunitasModel;
     }
 
-    public void setId_komunitas(int id_komunitas) {
-        this.id_komunitas = id_komunitas;
+    public void setKomunitasModel(DetailKomunitasModel komunitasModel) {
+        this.komunitasModel = komunitasModel;
     }
 
-    public int getId_user() {
-        return id_user;
+    public int getIdfollow() {
+        return idfollow;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setIdfollow(int idfollow) {
+        this.idfollow = idfollow;
     }
+
+    public int getIdkomunitas() {
+        return idkomunitas;
+    }
+
+    public void setIdkomunitas(int idkomunitas) {
+        this.idkomunitas = idkomunitas;
+    }
+
+    public int getIduser() {
+        return iduser;
+    }
+
+    public void setIduser(int iduser) {
+        this.iduser = iduser;
+    }
+
+    @JsonGetter("komunitas")
+    public DetailKomunitasModel komunitas(){
+        if(komunitasModel != null){
+            return komunitasModel;
+        }
+        return null;
+    }
+
+    @JsonSetter(nulls = Nulls.AS_EMPTY)
+    public void setKomunitas(DetailKomunitasModel detailKomunitasModel){
+        if(detailKomunitasModel != null){
+            this.komunitasModel = detailKomunitasModel;
+        }
+    }
+
+
 }
