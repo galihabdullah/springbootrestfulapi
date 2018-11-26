@@ -1,12 +1,15 @@
 package com.sporthubid.controllers.auth;
 
+import com.sporthubid.models.User;
 import com.sporthubid.models.UserEdit;
 import com.sporthubid.repository.UserEditRepository;
+import com.sporthubid.repository.UserRepository;
 import com.sporthubid.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -17,15 +20,18 @@ import java.util.UUID;
 public class ResetPassword {
 
     @Autowired
-    UserEditRepository userRepository;
+    UserEditRepository userEditRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired // inject dependency and function from EmailService
     private EmailService notificationService;
 
-    @PostMapping(path = "/reset-password")
+    @PostMapping(path = "/create-new-password")
     public Map<String, Object> getResetToken(@RequestParam(value = "email") String email){
         Map<String, Object> usermap = new HashMap<>(); // create new map for json
-        Optional<UserEdit> userlist = userRepository.findByEmail(email);
+        Optional<UserEdit> userlist = userEditRepository.findByEmail(email);
 
         UserEdit user = userlist.get();
 
@@ -33,18 +39,20 @@ public class ResetPassword {
             UUID randPass = UUID.randomUUID();
             String code = Long.toString(randPass.getMostSignificantBits(), 36).replaceAll("-","");
             user.setResettoken(code);
-            userRepository.save(user);
+            userEditRepository.save(user);
 
 //        ----------------------------------
 
             String message  = "Reset password!";
-
-            String nama     = user.getF_nama()+ " " +user.getL_nama();
+            String nama     = user.getF_nama();
 
 //        ----------------------------------
 
             try {
                 notificationService.prepareResetMail(user.getEmail(), message, code, nama);
+                usermap.put("error", false);
+                usermap.put("message", "Send reset password successfull");
+                usermap.put("status", "Ok");
             } catch (MailException mailException) {
                 usermap.put("error", true);
                 usermap.put("message", "Send reset password failed");
@@ -57,5 +65,29 @@ public class ResetPassword {
             usermap.put("status", "FAIL");
         }
         return usermap;
+    }
+
+    @PostMapping(path = "/reset-password")
+    public Map<String, Object> verifyUser(@Valid @RequestBody User userEdit){
+        Map<String, Object> updatemap = new HashMap<>();
+
+        Optional<User> opUser = userRepository.findByEmailAndResettoken(userEdit.getEmail(), userEdit.getResettoken());
+
+            User user = opUser.get();
+            if (user != null || !user.getEmail().isEmpty()){
+                user.setPassword(userEdit.getPassword());
+                user.setResettoken("expired");
+                userRepository.save(user);
+
+                updatemap.put("status", "Ok");
+                updatemap.put("message", "Reset password berhasil");
+                updatemap.put("error", null);
+            } else {
+                updatemap.put("status", "Ok");
+                updatemap.put("message", "Token expired");
+                updatemap.put("error", true);
+            }
+
+        return updatemap;
     }
 }
