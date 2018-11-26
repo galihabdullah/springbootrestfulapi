@@ -29,19 +29,6 @@ public class FollowKomunitas implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private DetailKomunitasModel komunitasModel;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_user", insertable = false, updatable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public DetailKomunitasModel getKomunitasModel() {
         return komunitasModel;
     }
@@ -74,20 +61,6 @@ public class FollowKomunitas implements Serializable {
         this.iduser = iduser;
     }
 
-    @JsonGetter("komunitas")
-    public DetailKomunitasModel komunitas(){
-        if(komunitasModel != null){
-            return komunitasModel;
-        }
-        return null;
-    }
-
-    @JsonSetter(nulls = Nulls.AS_EMPTY)
-    public void setKomunitas(DetailKomunitasModel detailKomunitasModel){
-        if(detailKomunitasModel != null){
-            this.komunitasModel = detailKomunitasModel;
-        }
-    }
 
 
 }
