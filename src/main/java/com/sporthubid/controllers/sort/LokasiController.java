@@ -19,7 +19,7 @@ public class LokasiController {
     @Autowired
     LokasiRepository lokasiRepository;
 
-    @GetMapping("")
+    @GetMapping()
     public List<LokasiModel> findAllJenis(){
         return lokasiRepository.findAll();
     }
