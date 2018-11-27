@@ -29,9 +29,9 @@ public class ResetPassword {
     private EmailService notificationService;
 
     @PostMapping(path = "/create-new-password")
-    public Map<String, Object> getResetToken(@RequestParam(value = "email") String email){
+    public Map<String, Object> getResetToken(@Valid @RequestBody UserEdit ue){
         Map<String, Object> usermap = new HashMap<>(); // create new map for json
-        Optional<UserEdit> userlist = userEditRepository.findByEmail(email);
+        Optional<UserEdit> userlist = userEditRepository.findByEmail(ue.getEmail());
 
         UserEdit user = userlist.get();
 
