@@ -67,25 +67,13 @@ public class FollowController {
         return repository.findByIduser(iduser);
     }
 
-    @PostMapping(path = "detailkomunitas/{idkomunitas}/follow", consumes = "application/json")
-    public Map<String, Object> create(@PathVariable("idkomunitas") Long idkomunitas, @RequestBody FollowKomunitas follow) {
-        Map<String,Object> respon = new HashMap<>();
-        if (!detailKomunitasRepository.existsById(idkomunitas)){
-            respon.put("status","false");
-            respon.put("messages","Following failed");
-            respon.put("error",true);
-            return respon;
-        }else{
-            repository.save(follow);
-            respon.put("status","Ok");
-            respon.put("messages","Following succeed");
-            respon.put("error",false);
-            return respon;
-        }
-
+    @PostMapping(path = "/detailkomunitas/follow", consumes = "application/json")
+    public FollowKomunitas follow(@RequestParam("idkomunitas") Long idkomunitas,
+                                  @RequestParam("iduser") Long iduser,
+                                  FollowKomunitas followKomunitas) {
+    return repository.save(followKomunitas);
 
     }
-
     @DeleteMapping(path = "/detailkomunitas/{idkomunitas}/unfollow/{iduser}")
    public void delete(@PathVariable("idkomunitas") Integer idkomunitas,
                       @PathVariable("iduser") Integer iduser) {
