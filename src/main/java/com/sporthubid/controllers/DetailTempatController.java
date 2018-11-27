@@ -1,6 +1,8 @@
 package com.sporthubid.controllers;
 import com.sporthubid.models.DetailTempatModel;
+import com.sporthubid.models.sort.RatingModel;
 import com.sporthubid.repository.DetailTempatRepository;
+import com.sporthubid.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,9 @@ public class DetailTempatController {
 
     @Autowired
     DetailTempatRepository repository;
+
+    @Autowired
+    RatingRepository ratingRepository;
 
     @GetMapping
     public List<DetailTempatModel> getAll(){
@@ -56,5 +61,19 @@ public class DetailTempatController {
     @DeleteMapping(path = "/id/{id}")
     public void delettempat(@PathVariable(value = "id") Long id){
         repository.deleteById(id);
+    }
+
+    @GetMapping("/id/{id}/rating")
+    public Integer getRating(@PathVariable(value = "id") Long id){
+        return ratingRepository.getAverageRating(id);
+    }
+
+    @PostMapping("/giverating")
+    public RatingModel giveRating(@RequestParam(value = "idtempat") Long idtempat,
+                                  @RequestParam(value = "iduser") Long iduser,
+                                  @RequestParam(value = "rating") Long rating,
+                                  RatingModel ratingModel
+                                  ){
+        return ratingRepository.save(ratingModel);
     }
 }
