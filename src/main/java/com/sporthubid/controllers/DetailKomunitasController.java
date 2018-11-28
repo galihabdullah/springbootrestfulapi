@@ -3,6 +3,7 @@ package com.sporthubid.controllers;
 import com.sporthubid.models.DetailKomunitasModel;
 import com.sporthubid.models.DetailTempatModel;
 import com.sporthubid.repository.DetailKomunitasRepository;
+import com.sporthubid.repository.FollowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class DetailKomunitasController {
     @Autowired
     DetailKomunitasRepository detailKomunitasRepository;
+
+    FollowRepository followRepository;
 
     @GetMapping()
     public List<DetailKomunitasModel> findAll(){

@@ -1,10 +1,7 @@
 package com.sporthubid.models;
 
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.annotation.*;
 import com.sporthubid.models.sort.JenisOlahragaModel;
 import com.sporthubid.models.sort.KecamatanModel;
 import com.sporthubid.models.sort.KelurahanModel;
@@ -13,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_komunitas")
@@ -55,6 +53,7 @@ public class DetailKomunitasModel implements Serializable {
     @JoinColumn(name = "id_jenis", insertable = false, updatable = false)
     @JsonIgnore
     private JenisOlahragaModel jenisOlahragaModel;
+
 
     @Column(name = "nama_komunitas")
     private String namakomunitas;
@@ -232,6 +231,8 @@ public class DetailKomunitasModel implements Serializable {
     public void setKelurahanJson(KelurahanModel kelurahanModel){
         if(kelurahanModel != null){
             this.kelurahanModel = kelurahanModel;
+
         }
     }
+
 }
