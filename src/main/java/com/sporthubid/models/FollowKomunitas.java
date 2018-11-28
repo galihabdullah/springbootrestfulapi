@@ -1,6 +1,7 @@
 package com.sporthubid.models;
 
 import com.fasterxml.jackson.annotation.*;
+import com.sporthubid.models.sort.JenisOlahragaModel;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,7 +27,7 @@ public class FollowKomunitas implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_komunitas", insertable = false, updatable = false)
-    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private DetailKomunitasModel komunitasModel;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
