@@ -63,10 +63,12 @@ public class FollowController {
         Map<String, Object> respon = new HashMap<>();
         if(iduser != null){
             if(repository.existsByIdkomunitasAndIduser(idkomunitas, iduser)){
-                respon.put("status", true);
+                respon.put("islogged", true);
+                respon.put("isfollow", true);
                 respon.put("unfollow", " https://sportshubid.herokuapp.com/detailkomunitas/unfollow?idkomunitas="+idkomunitas+"&iduser="+iduser);
             }else{
-                respon.put("status", true);
+                respon.put("islogged", true);
+                respon.put("isfollow", false);
                 respon.put("follow"," https://sportshubid.herokuapp.com/follow?idkomunitas="+idkomunitas+"&iduser="+iduser);
             }
         }else{
