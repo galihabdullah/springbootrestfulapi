@@ -32,7 +32,6 @@ public class KomunitasModel {
     private String url;
 
 
-
     public Long getIdkomunitas() {
         return idkomunitas;
     }
@@ -96,4 +95,6 @@ public class KomunitasModel {
     public void setUrl(String url) {
         this.url = url;
     }
+
+
 }

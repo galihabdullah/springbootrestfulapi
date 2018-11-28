@@ -57,6 +57,25 @@ public class FollowController {
     }
      **/
 
+    @GetMapping("checkfollow")
+    public Map<String, Object> checkFollow(@RequestParam("idkomunitas") Integer idkomunitas,
+                                           @RequestParam(value = "iduser", required = false) Integer iduser){
+        Map<String, Object> respon = new HashMap<>();
+        if(iduser != null){
+            if(repository.existsByIdkomunitasAndIduser(idkomunitas, iduser)){
+                respon.put("status", true);
+                respon.put("unfollow", "http://localhost:8080/detailkomunitas/unfollow?idkomunitas="+idkomunitas+"&iduser="+iduser);
+            }else{
+                respon.put("status", true);
+                respon.put("follow","http://localhost:8080/detailkomunitas/follow?idkomunitas="+idkomunitas+"&iduser="+iduser);
+            }
+        }else{
+            respon.put("status",false);
+        }
+        return respon;
+
+    }
+
     @GetMapping("/detailkomunitas/{idkomunitas}/follow")
     public Integer getCountFollower(@PathVariable(value = "idkomunitas") Integer idkomunitas){
         return repository.countByIdkomunitas(idkomunitas);
@@ -71,12 +90,13 @@ public class FollowController {
     public FollowKomunitas follow(@RequestParam("idkomunitas") Long idkomunitas,
                                   @RequestParam("iduser") Long iduser,
                                   FollowKomunitas followKomunitas) {
-    return repository.save(followKomunitas);
+        return repository.save(followKomunitas);
 
     }
-    @DeleteMapping(path = "/detailkomunitas/{idkomunitas}/unfollow/{iduser}")
-   public void delete(@PathVariable("idkomunitas") Integer idkomunitas,
-                      @PathVariable("iduser") Integer iduser) {
-        repository.deleteByIduserAndIdkomunitas(iduser, idkomunitas);
+    @DeleteMapping(path = "/detailkomunitas/unfollow")
+   public void unfollow(@RequestParam("idkomunitas") Integer idkomunitas,
+                        @RequestParam("iduser") Integer iduser) {
+        repository.removeByIduserAndIdkomunitas(idkomunitas,iduser);
     }
+
 }
