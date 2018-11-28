@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface DetailKomunitasRepository extends JpaRepository<DetailKomunitasModel, Long> {
     Optional<DetailKomunitasModel> findById(Long id);
+    List<DetailKomunitasModel> findByIduser(Long iduser);
 
     @Query(value = "SELECT tp.* FROM tb_komunitas tp WHERE tp.id_komunitas IN (:strikom) ORDER BY tp.id_komunitas DESC " ,nativeQuery = true)
     List<DetailKomunitasModel> getById_komunitas(@Param("strikom") List<Integer> strikom);

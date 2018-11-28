@@ -24,6 +24,9 @@ public class DetailTempatModel implements Serializable {
     @Column(name = "id_tempat")
     private Long id;
 
+    @Column(name = "id_user")
+    private Long iduser;
+
     @Column(name = "id_lokasi")
     private Long idkota;
 
@@ -192,6 +195,14 @@ public class DetailTempatModel implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIduser() {
+        return iduser;
+    }
+
+    public void setIduser(Long iduser) {
+        this.iduser = iduser;
     }
 
     public String getNamatempat() {

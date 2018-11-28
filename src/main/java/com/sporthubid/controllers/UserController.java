@@ -1,16 +1,14 @@
 package com.sporthubid.controllers;
 
 import com.sporthubid.models.DetailKomunitasModel;
+import com.sporthubid.models.DetailTempatModel;
 import com.sporthubid.models.UserEdit;
-import com.sporthubid.repository.DetailKomunitasRepository;
-import com.sporthubid.repository.OlahragaRepository;
-import com.sporthubid.repository.UserEditRepository;
+import com.sporthubid.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.sporthubid.models.User;
-import com.sporthubid.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -37,6 +35,9 @@ public class UserController {
 
     @Autowired
     private DetailKomunitasRepository detailKomunitasRepository;
+
+    @Autowired
+    private DetailTempatRepository detailTempatRepository;
 
     @Autowired
     OlahragaRepository olahragaRepository;
@@ -123,6 +124,8 @@ public class UserController {
         Map<String,Object> rus = new HashMap<>();
 
         List<DetailKomunitasModel> komunitas = null;
+        List<DetailKomunitasModel> datakomunitas = null;
+        List<DetailTempatModel> datatempat = null;
         List olahraga = null;
         String[] minat = null;
 
@@ -130,24 +133,41 @@ public class UserController {
             Optional<User> user_detail = repository.findById(id_user);
             User data_user = user_detail.get();
 
-//  --------------- get komunitas by user id -------------
-            try
-            {
-                Query sql = em.createNativeQuery("SELECT id_komunitas FROM tb_follow WHERE id_user="+id_user+"");
-                List<Integer> id_kom = sql.getResultList();
-                komunitas = detailKomunitasRepository.getById_komunitas(id_kom);
-            }catch (Exception e){
-                komunitas = null;
+            if (data_user.getId_level()==5){
+
+                datakomunitas = detailKomunitasRepository.findByIduser(data_user.getId_user());
+                respon.put("profil_komunitas", datakomunitas);
+
+            } else if (data_user.getId_level()==6){
+
+                datatempat = detailTempatRepository.findByIduser(data_user.getId_user());
+                respon.put("profil_tempat", datatempat);
+
+            } else {
+
+                //  --------------- get komunitas by user id -------------
+                try
+                {
+                    Query sql = em.createNativeQuery("SELECT id_komunitas FROM tb_follow WHERE id_user="+id_user+"");
+                    List<Integer> id_kom = sql.getResultList();
+                    komunitas = detailKomunitasRepository.getById_komunitas(id_kom);
+                }catch (Exception e){
+                    komunitas = null;
+                }
+
+                //  ----------------- get olahraga by user id -------------
+                try
+                {
+                    minat = data_user.getMinat_or().split(",");
+                    olahraga = olahragaRepository.getById_komunitas(minat);
+                } catch (Exception e){
+                    olahraga = null;
+                }
+
+                rus.put("minat_or", olahraga);
+                rus.put("komunitas", komunitas);
             }
 
-//  ----------------- get olahraga by user id -------------
-            try
-            {
-                minat = data_user.getMinat_or().split(",");
-                olahraga = olahragaRepository.getById_komunitas(minat);
-            } catch (Exception e){
-                olahraga = null;
-            }
 
 //  ------------------ user map -------------
 
@@ -166,9 +186,6 @@ public class UserController {
             rus.put("status", data_user.getStatus());
             rus.put("created_at", data_user.getCreated_at());
             rus.put("updated_at", data_user.getUpdated_at());
-
-            rus.put("minat_or", olahraga);
-            rus.put("komunitas", komunitas);
 
 //  ------------------ respon map -------------
 
