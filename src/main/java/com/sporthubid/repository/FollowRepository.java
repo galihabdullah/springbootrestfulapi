@@ -22,4 +22,5 @@ public interface FollowRepository extends JpaRepository<FollowKomunitas, Integer
     Integer removeByIduserAndIdkomunitas(Integer iduser, Integer idkomunitas);
     boolean existsByIdkomunitasAndIduser(Integer idkomunitas, Integer iduser);
 
+
 }

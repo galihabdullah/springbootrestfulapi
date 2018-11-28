@@ -64,10 +64,10 @@ public class FollowController {
         if(iduser != null){
             if(repository.existsByIdkomunitasAndIduser(idkomunitas, iduser)){
                 respon.put("status", true);
-                respon.put("unfollow", "http://localhost:8080/detailkomunitas/unfollow?idkomunitas="+idkomunitas+"&iduser="+iduser);
+                respon.put("unfollow", " https://sportshubid.herokuapp.com/detailkomunitas/unfollow?idkomunitas="+idkomunitas+"&iduser="+iduser);
             }else{
                 respon.put("status", true);
-                respon.put("follow","http://localhost:8080/detailkomunitas/follow?idkomunitas="+idkomunitas+"&iduser="+iduser);
+                respon.put("follow"," https://sportshubid.herokuapp.com/follow?idkomunitas="+idkomunitas+"&iduser="+iduser);
             }
         }else{
             respon.put("status",false);
