@@ -69,11 +69,15 @@ public class DetailTempatController {
     }
 
     @PostMapping("/giverating")
-    public RatingModel giveRating(@RequestParam(value = "idtempat") Long idtempat,
+    public Boolean giveRating(@RequestParam(value = "idtempat") Long idtempat,
                                   @RequestParam(value = "iduser") Long iduser,
                                   @RequestParam(value = "rating") Long rating,
                                   RatingModel ratingModel
                                   ){
-        return ratingRepository.save(ratingModel);
+        if(!ratingRepository.existsByIduserAndIdtempat(iduser,idtempat)){
+            ratingRepository.save(ratingModel);
+            return true;
+        }
+        return false;
     }
 }

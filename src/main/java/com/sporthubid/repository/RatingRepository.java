@@ -13,4 +13,5 @@ public interface RatingRepository extends JpaRepository<RatingModel, Long> {
     List<RatingModel> findByIdtempat(Long id);
     @Query("SELECT AVG (rating) from RatingModel where idtempat=:idtempat")
     Integer getAverageRating(@Param("idtempat") Long idtempat);
+    boolean existsByIduserAndIdtempat(Long iduser, Long idtempat);
 }

@@ -57,6 +57,27 @@ public class FollowController {
     }
      **/
 
+    @GetMapping("checkfollow")
+    public Map<String, Object> checkFollow(@RequestParam("idkomunitas") Integer idkomunitas,
+                                           @RequestParam(value = "iduser", required = false) Integer iduser){
+        Map<String, Object> respon = new HashMap<>();
+        if(iduser != null){
+            if(repository.existsByIdkomunitasAndIduser(idkomunitas, iduser)){
+                respon.put("islogged", true);
+                respon.put("isfollow", true);
+                respon.put("unfollow", " https://sportshubid.herokuapp.com/detailkomunitas/unfollow?idkomunitas="+idkomunitas+"&iduser="+iduser);
+            }else{
+                respon.put("islogged", true);
+                respon.put("isfollow", false);
+                respon.put("follow"," https://sportshubid.herokuapp.com/follow?idkomunitas="+idkomunitas+"&iduser="+iduser);
+            }
+        }else{
+            respon.put("status",false);
+        }
+        return respon;
+
+    }
+
     @GetMapping("/detailkomunitas/{idkomunitas}/follow")
     public Integer getCountFollower(@PathVariable(value = "idkomunitas") Integer idkomunitas){
         return repository.countByIdkomunitas(idkomunitas);
@@ -67,28 +88,17 @@ public class FollowController {
         return repository.findByIduser(iduser);
     }
 
-    @PostMapping(path = "detailkomunitas/{idkomunitas}/follow", consumes = "application/json")
-    public Map<String, Object> create(@PathVariable("idkomunitas") Long idkomunitas, @RequestBody FollowKomunitas follow) {
-        Map<String,Object> respon = new HashMap<>();
-        if (!detailKomunitasRepository.existsById(idkomunitas)){
-            respon.put("status","false");
-            respon.put("messages","Following failed");
-            respon.put("error",true);
-            return respon;
-        }else{
-            repository.save(follow);
-            respon.put("status","Ok");
-            respon.put("messages","Following succeed");
-            respon.put("error",false);
-            return respon;
-        }
-
+    @PostMapping(path = "/detailkomunitas/follow", consumes = "application/json")
+    public FollowKomunitas follow(@RequestParam("idkomunitas") Long idkomunitas,
+                                  @RequestParam("iduser") Long iduser,
+                                  FollowKomunitas followKomunitas) {
+        return repository.save(followKomunitas);
 
     }
-
-    @DeleteMapping(path = "/detailkomunitas/{idkomunitas}/unfollow/{iduser}")
-   public void delete(@PathVariable("idkomunitas") Integer idkomunitas,
-                      @PathVariable("iduser") Integer iduser) {
-        repository.deleteByIduserAndIdkomunitas(iduser, idkomunitas);
+    @DeleteMapping(path = "/detailkomunitas/unfollow")
+   public void unfollow(@RequestParam("idkomunitas") Integer idkomunitas,
+                        @RequestParam("iduser") Integer iduser) {
+        repository.removeByIduserAndIdkomunitas(idkomunitas,iduser);
     }
+
 }
