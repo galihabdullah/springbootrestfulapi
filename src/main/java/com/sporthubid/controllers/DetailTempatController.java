@@ -63,21 +63,4 @@ public class DetailTempatController {
         repository.deleteById(id);
     }
 
-    @GetMapping("/id/{id}/rating")
-    public Integer getRating(@PathVariable(value = "id") Long id){
-        return ratingRepository.getAverageRating(id);
-    }
-
-    @PostMapping("/giverating")
-    public Boolean giveRating(@RequestParam(value = "idtempat") Long idtempat,
-                                  @RequestParam(value = "iduser") Long iduser,
-                                  @RequestParam(value = "rating") Long rating,
-                                  RatingModel ratingModel
-                                  ){
-        if(!ratingRepository.existsByIduserAndIdtempat(iduser,idtempat)){
-            ratingRepository.save(ratingModel);
-            return true;
-        }
-        return false;
-    }
 }
