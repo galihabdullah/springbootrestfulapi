@@ -1,8 +1,12 @@
 package com.sporthubid.controllers.olahraga;
 
+import com.sporthubid.models.User;
 import com.sporthubid.models.UserEdit;
 import com.sporthubid.models.sort.JenisOlahragaModel;
+import com.sporthubid.repository.DetailKomunitasRepository;
+import com.sporthubid.repository.OlahragaRepository;
 import com.sporthubid.repository.UserEditRepository;
+import com.sporthubid.repository.UserRepository;
 import com.sporthubid.repository.sort.JenisOlahrgaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -21,6 +28,9 @@ public class OlahragaController {
 
     @Autowired
     JenisOlahrgaRepository jenisOlahrgaRepository;
+
+    @Autowired
+    OlahragaRepository olahragaRepository;
 
     @Autowired
     EntityManager entityManager;
@@ -40,4 +50,5 @@ public class OlahragaController {
             return 0;
         }
     }
+
 }

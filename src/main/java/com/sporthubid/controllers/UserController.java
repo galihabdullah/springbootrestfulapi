@@ -2,8 +2,8 @@ package com.sporthubid.controllers;
 
 import com.sporthubid.models.DetailKomunitasModel;
 import com.sporthubid.models.UserEdit;
-import com.sporthubid.models.sort.KomunitasModel;
 import com.sporthubid.repository.DetailKomunitasRepository;
+import com.sporthubid.repository.OlahragaRepository;
 import com.sporthubid.repository.UserEditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,6 +37,9 @@ public class UserController {
 
     @Autowired
     private DetailKomunitasRepository detailKomunitasRepository;
+
+    @Autowired
+    OlahragaRepository olahragaRepository;
 
     @GetMapping
     public Iterable<User> findAll() { return repository.findAll();
@@ -111,6 +114,75 @@ public class UserController {
             return null;
         }
 
+    }
+
+
+    @GetMapping(path = "/profile/{id_user}")
+    public Map<String, Object> getProfile(@PathVariable("id_user") Long id_user) {
+        Map<String,Object> respon = new HashMap<>();
+        Map<String,Object> rus = new HashMap<>();
+
+        List<DetailKomunitasModel> komunitas = null;
+        List olahraga = null;
+        String[] minat = null;
+
+        if (repository.existsById(id_user)) {
+            Optional<User> user_detail = repository.findById(id_user);
+            User data_user = user_detail.get();
+
+//  --------------- get komunitas by user id -------------
+            try
+            {
+                Query sql = em.createNativeQuery("SELECT id_komunitas FROM tb_follow WHERE id_user="+id_user+"");
+                List<Integer> id_kom = sql.getResultList();
+                komunitas = detailKomunitasRepository.getById_komunitas(id_kom);
+            }catch (Exception e){
+                komunitas = null;
+            }
+
+//  ----------------- get olahraga by user id -------------
+            try
+            {
+                minat = data_user.getMinat_or().split(",");
+                olahraga = olahragaRepository.getById_komunitas(minat);
+            } catch (Exception e){
+                olahraga = null;
+            }
+
+//  ------------------ user map -------------
+
+            rus.put("id_user", data_user.getId_user());
+            rus.put("id_level", data_user.getId_level());
+            rus.put("f_nama", data_user.getF_nama());
+            rus.put("l_nama", data_user.getL_nama());
+            rus.put("foto", data_user.getFoto());
+            rus.put("tmp_lahir", data_user.getTmp_lahir());
+            rus.put("tgl_lahir", data_user.getTgl_lahir());
+            rus.put("jenis_kelamin", data_user.getJenis_kelamin());
+            rus.put("email", data_user.getEmail());
+            rus.put("no_hp", data_user.getNo_hp());
+            rus.put("alamat", data_user.getAlamat());
+            rus.put("username", data_user.getUsername());
+            rus.put("status", data_user.getStatus());
+            rus.put("created_at", data_user.getCreated_at());
+            rus.put("updated_at", data_user.getUpdated_at());
+
+            rus.put("minat_or", olahraga);
+            rus.put("komunitas", komunitas);
+
+//  ------------------ respon map -------------
+
+            respon.put("status","Ok");
+            respon.put("error",false);
+            respon.put("result", rus);
+            return respon;
+
+        } else {
+            respon.put("status","Fail");
+            respon.put("messages","Id is not available. Searching failed.");
+            respon.put("error",true);
+            return respon;
+        }
     }
 
 }
