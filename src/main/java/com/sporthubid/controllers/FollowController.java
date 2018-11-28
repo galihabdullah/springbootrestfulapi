@@ -57,7 +57,7 @@ public class FollowController {
     }
      **/
 
-    @GetMapping("checkfollow")
+    @GetMapping("detailkomunitas/checkfollow")
     public Map<String, Object> checkFollow(@RequestParam("idkomunitas") Integer idkomunitas,
                                            @RequestParam(value = "iduser", required = false) Integer iduser){
         Map<String, Object> respon = new HashMap<>();
