@@ -12,6 +12,10 @@ import java.util.List;
 @RestResource (exported = false)
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
+
+    @Query(value = "SELECT tp.* FROM tb_post tp WHERE tp.id_komunitas= ?1 ORDER BY tp.id_post DESC", nativeQuery = true)
+    List<Post> findById_komunitas(Integer id_komunitas);
+
     @Query(value = "SELECT tp.* FROM tb_post tp WHERE tp.id_komunitas IN (:strikom) ORDER BY tp.id_post DESC " ,nativeQuery = true)
     List<Post> getById_komunitas(@Param("strikom") List<Integer> strikom);
 

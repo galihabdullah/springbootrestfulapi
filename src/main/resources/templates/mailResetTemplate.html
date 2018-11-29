@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+
+<div id="content" align="center">
+    <h1>Hai <span th:text="${nama}"></span></h1>
+    <h3>Klik link di bawah ini untuk memperbarui password anda.</h3>
+    <br>
+
+    <a th:href="@{https://localhost:3000/reset-password(email=${email}, code=${token})}"><span th:text="${message}"></span></a>
+</div>
+
+</body>
+</html>

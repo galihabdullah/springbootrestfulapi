@@ -50,24 +50,17 @@ public class PengumumanController {
     }
 
 
-    @GetMapping(path = "/get-pengumuman/{id_user}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Pengumuman> mJoin(@Valid @PathVariable(name = "id_user") Long id_user){
+    @GetMapping(path = "/history/{id_komunitas}")
+    public List<Post> mJoin(@Valid @PathVariable(name = "id_komunitas") Integer id_komunitas){
 
-        if (mjRepository.existsById(id_user)){
-            Query sql = em.createNativeQuery("SELECT id_komunitas from tb_member_join where id_user="+id_user+"");
-            List<Integer> id_kom = sql.getResultList();
-//          String strikom = StringUtils.join(id_kom,","); // koversi list ke array
+        List<Post> histpry = postRepository.findById_komunitas(id_komunitas);
 
-            if (!id_kom.isEmpty()){
-                List<Pengumuman> pengumuman = pengumumanRepository.getById_komunitas(id_kom);
-                return pengumuman;
-            } else {
-                return null;
-            }
-
-        } else {
+        if (histpry.isEmpty()){
             return null;
+        } else {
+            return histpry;
         }
+
 
     }
 }

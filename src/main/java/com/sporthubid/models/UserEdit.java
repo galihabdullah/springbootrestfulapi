@@ -52,6 +52,9 @@ public class UserEdit implements Serializable {
     private String komunitas;
 
     @Column
+    private String resettoken;
+
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updated_at;
@@ -150,6 +153,14 @@ public class UserEdit implements Serializable {
 
     public void setKomunitas(String komunitas) {
         this.komunitas = komunitas;
+    }
+
+    public String getResettoken() {
+        return resettoken;
+    }
+
+    public void setResettoken(String resettoken) {
+        this.resettoken = resettoken;
     }
 
     public Date getUpdated_at() {
